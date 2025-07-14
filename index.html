@@ -1,70 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cyberpunk Weather</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stockton Weather Widget</title>
   <style>
     body {
-      font-family: 'Orbitron', monospace;
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(ellipse at bottom, #1f0030 0%, #0a0a23 100%);
-      color: #fff;
+      background-color: #0f0f1c;
+      color: #00fff7;
+      font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
 
-    .widget-container {
-      border: 2px solid #ff00ff;
-      border-radius: 10px;
+    #weather-widget {
+      border: 2px solid #00fff7;
+      border-radius: 12px;
       padding: 20px;
-      box-shadow:
-        0 0 10px #ff00ff,
-        0 0 20px #00ffff,
-        0 0 40px #ff00ff;
-      animation: pulse 4s infinite;
+      background: linear-gradient(135deg, #1c1c2c, #2c2c4c);
+      box-shadow: 0 0 15px #00fff7;
+    }
+
+    .weatherwidget-io {
+      width: 100%;
       max-width: 400px;
+      display: block;
       text-align: center;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        box-shadow:
-          0 0 10px #ff00ff,
-          0 0 20px #00ffff,
-          0 0 40px #ff00ff;
-      }
-
-      50% {
-        box-shadow:
-          0 0 20px #00ffff,
-          0 0 30px #ff00ff,
-          0 0 60px #00ffff;
-      }
-    }
-
-    .loading {
-      color: #7ef9ff;
-      font-size: 1.2em;
-      padding: 10px;
     }
   </style>
 </head>
-
 <body>
+
   <div id="weather-widget">
-    <a class="weatherwidget-io" 
-       href="https://forecast7.com/en/37d96n121d29w/stockton/" 
-       data-label_1="STOCKTON" 
-       data-label_2="WEATHER" 
-       data-days="3" 
+    <a class="weatherwidget-io"
+       href="https://forecast7.com/en/37d96n121d29w/stockton/"
+       data-label_1="STOCKTON"
+       data-label_2="WEATHER"
+       data-days="3"
        data-theme="dark">
        STOCKTON WEATHER
     </a>
@@ -81,7 +56,7 @@
       }
     }(document,'script','weatherwidget-io-js');
   </script>
+
 </body>
-
-
 </html>
+
