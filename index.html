@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cyberpunk Weather</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
@@ -55,7 +55,7 @@
 </head>
 <body>
   <div class="widget-container" id="weather-widget">
-    <div class="loading">Fetching your location & weather...</div>
+    <div class="loading">Getting your location and weather...</div>
   </div>
 
   <script>
@@ -65,42 +65,49 @@
       return data.address.city || data.address.town || data.address.village || data.address.county;
     }
 
-    function createWeatherWidget(city) {
-      const widgetContainer = document.getElementById('weather-widget');
-      widgetContainer.innerHTML = '';
+    function buildWeatherWidget(city) {
+      const container = document.getElementById("weather-widget");
+      container.innerHTML = ''; // Clear loading
 
-      const a = document.createElement('a');
-      a.className = 'weatherwidget-io';
-      a.href = `https://forecast7.com/en/${city.toLowerCase().replace(/\s/g, '')}/`;
-      a.setAttribute('data-label_1', city.toUpperCase());
-      a.setAttribute('data-label_2', 'WEATHER');
-      a.setAttribute('data-days', '3');
-      a.setAttribute('data-theme', 'dark');
+      const link = document.createElement("a");
+      link.className = "weatherwidget-io";
+      link.href = `https://forecast7.com/en/${city.toLowerCase().replace(/\s/g, '')}/`;
+      link.setAttribute("data-label_1", city.toUpperCase());
+      link.setAttribute("data-label_2", "WEATHER");
+      link.setAttribute("data-days", "3");
+      link.setAttribute("data-theme", "dark");
+      link.textContent = `${city.toUpperCase()} WEATHER`;
 
-      a.textContent = `${city.toUpperCase()} WEATHER`;
-      widgetContainer.appendChild(a);
+      container.appendChild(link);
 
-      // Load widget script
-      const script = document.createElement('script');
-      script.src = 'https://weatherwidget.io/js/widget.min.js';
-      widgetContainer.appendChild(script);
+      const script = document.createElement("script");
+      script.src = "https://weatherwidget.io/js/widget.min.js";
+      script.async = true;
+      container.appendChild(script);
     }
 
-    function handleError(error) {
-      const widgetContainer = document.getElementById('weather-widget');
-      widgetContainer.innerHTML = '<div class="loading">Unable to fetch location. Please enable location services.</div>';
+    function showError(msg) {
+      const container = document.getElementById("weather-widget");
+      container.innerHTML = `<div class="loading">${msg}</div>`;
     }
 
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async position => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const city = await getCityFromCoords(lat, lon);
-        createWeatherWidget(city);
-      }, handleError);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const city = await getCityFromCoords(lat, lon);
+          buildWeatherWidget(city);
+        } catch (err) {
+          showError("Error getting city name.");
+        }
+      }, () => {
+        showError("Location access denied.");
+      });
     } else {
-      handleError();
+      showError("Geolocation not supported.");
     }
   </script>
 </body>
 </html>
+
