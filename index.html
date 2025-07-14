@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyberpunk Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Orbitron', monospace;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at bottom, #1f0030 0%, #0a0a23 100%);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .widget-container {
+      border: 2px solid #ff00ff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff,
+        0 0 40px #ff00ff;
+      animation: pulse 4s infinite;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 10px #ff00ff,
+          0 0 20px #00ffff,
+          0 0 40px #ff00ff;
+      }
+      50% {
+        box-shadow:
+          0 0 20px #00ffff,
+          0 0 30px #ff00ff,
+          0 0 60px #00ffff;
+      }
+    }
+
+    .loading {
+      color: #7ef9ff;
+      font-size: 1.2em;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container" id="weather-widget">
+    <div class="loading">Fetching your location & weather...</div>
+  </div>
+
+  <script>
+    async function getCityFromCoords(lat, lon) {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+      const data = await res.json();
+      return data.address.city || data.address.town || data.address.village || data.address.county;
+    }
+
+    function createWeatherWidget(city) {
+      const widgetContainer = document.getElementById('weather-widget');
+      widgetContainer.innerHTML = '';
+
+      const a = document.createElement('a');
+      a.className = 'weatherwidget-io';
+      a.href = `https://forecast7.com/en/${city.toLowerCase().replace(/\s/g, '')}/`;
+      a.setAttribute('data-label_1', city.toUpperCase());
+      a.setAttribute('data-label_2', 'WEATHER');
+      a.setAttribute('data-days', '3');
+      a.setAttribute('data-theme', 'dark');
+
+      a.textContent = `${city.toUpperCase()} WEATHER`;
+      widgetContainer.appendChild(a);
+
+      // Load widget script
+      const script = document.createElement('script');
+      script.src = 'https://weatherwidget.io/js/widget.min.js';
+      widgetContainer.appendChild(script);
+    }
+
+    function handleError(error) {
+      const widgetContainer = document.getElementById('weather-widget');
+      widgetContainer.innerHTML = '<div class="loading">Unable to fetch location. Please enable location services.</div>';
+    }
+
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(async position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const city = await getCityFromCoords(lat, lon);
+        createWeatherWidget(city);
+      }, handleError);
+    } else {
+      handleError();
+    }
+  </script>
+</body>
+</html>
