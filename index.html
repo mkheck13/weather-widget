@@ -59,75 +59,29 @@
 </head>
 
 <body>
-  <div class="widget-container" id="weather-widget">
-    <div class="loading">Loading your weather...</div>
+  <div id="weather-widget">
+    <a class="weatherwidget-io" 
+       href="https://forecast7.com/en/37d96n121d29w/stockton/" 
+       data-label_1="STOCKTON" 
+       data-label_2="WEATHER" 
+       data-days="3" 
+       data-theme="dark">
+       STOCKTON WEATHER
+    </a>
   </div>
 
   <script>
-    async function getCityAndCoords(lat, lon) {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-      const data = await res.json();
-      const city = data.address.city || data.address.town || data.address.village || data.address.county;
-      const latFixed = lat.toFixed(2);
-      const lonFixed = lon.toFixed(2);
-      return {
-        city,
-        formattedCoords: `${latFixed.replace('.', 'd')}${latFixed < 0 ? 's' : 'n'}${lonFixed.replace('.', 'd')}${lonFixed < 0 ? 'w' : 'e'}`
-      };
-    }
-    const fallbackCity = 'Stockton, CA';
-
-    function buildWeatherWidget({
-      city,
-      formattedCoords
-    } = {}) {
-      const container = document.getElementById("weather-widget");
-      container.innerHTML = ''; // Clear loading text
-      const a = document.createElement("a");
-      a.className = "weatherwidget-io";
-      a.href = city && formattedCoords ?
-        `https://forecast7.com/en/${formattedCoords}/${city.toLowerCase().replace(/\s+/g, '-')}/` :
-        `https://forecast7.com/en/37d96n121d29w/stockton/`; // ← fallback for Stockton
-      a.setAttribute("data-label_1", (city || "Stockton").toUpperCase());
-      a.setAttribute("data-label_2", "WEATHER");
-      a.setAttribute("data-days", "3");
-      a.setAttribute("data-theme", "dark");
-      a.textContent = `${(city || "Stockton").toUpperCase()} WEATHER`;
-      container.appendChild(a);
-      const script = document.createElement("script");
-      script.src = "https://weatherwidget.io/js/widget.min.js";
-      script.async = true;
-      container.appendChild(script);
-    }
-
-    function showError(msg) {
-      const container = document.getElementById("weather-widget");
-      container.innerHTML = `<div class="loading">${msg}</div>`;
-    }
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        try {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          const {
-            city,
-            formattedCoords
-          } = await getCityAndCoords(lat, lon);
-          if (!city || !formattedCoords) {
-            showError("City lookup failed.");
-            return;
-          }
-          buildWeatherWidget(city, formattedCoords);
-        } catch (err) {
-          showError("Error getting city.");
-        }
-      }, () => {
-        showError("Location access denied.");
-      });
-    } else {
-      showError("Geolocation not supported.");
-    }
+    !function(d,s,id){
+      var js, fjs=d.getElementsByTagName(s)[0];
+      if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id;
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);
+      }
+    }(document,'script','weatherwidget-io-js');
   </script>
 </body>
+
 
 </html>
