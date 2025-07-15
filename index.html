@@ -3,53 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cyberpunk Weather Widget</title>
+  <title>Stockton Cyberpunk Weather</title>
   <style>
     body {
-      background: linear-gradient(135deg, #0f0f1c, #1c0033);
+      background-color: #0f0f1c;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      color: #00fff7;
     }
 
-    #weather-container {
+    .widget-container {
       border: 2px solid #00fff7;
       border-radius: 12px;
-      padding: 20px;
-      background: linear-gradient(145deg, #1c1c2e, #10001e);
-      box-shadow: 0 0 20px #00fff7;
-    }
-
-    .weatherwidget-io {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 8px;
-      filter: drop-shadow(0 0 10px #00fff7);
-      text-align: center;
+      padding: 10px;
+      background: linear-gradient(135deg, #1c1c2e, #10001e);
+      box-shadow: 0 0 15px #00fff7;
     }
   </style>
-  <!-- Optional: Synthwave-style font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <div id="weather-container">
+  <div class="widget-container">
     <a class="weatherwidget-io"
-      href="https://forecast7.com/en/37d96n121d29/stockton/?unit=us"
-      data-label_1="STOCKTON"
-      data-label_2="WEATHER"
-      data-theme="dark">
-      STOCKTON WEATHER
+       href="https://forecast7.com/en/37d96n121d29/stockton/?unit=us"
+       data-label_1="STOCKTON"
+       data-label_2="WEATHER"
+       data-font="Orbitron"
+       data-icons="Climacons Animated"
+       data-theme="dark"
+       data-days="5">
+       STOCKTON WEATHER
     </a>
   </div>
 
   <script>
     !function(d,s,id){
-      var js,fjs=d.getElementsByTagName(s)[0];
+      var js, fjs=d.getElementsByTagName(s)[0];
       if(!d.getElementById(id)){
         js=d.createElement(s);
         js.id=id;
@@ -58,6 +48,6 @@
       }
     }(document,'script','weatherwidget-io-js');
   </script>
-
 </body>
 </html>
+
