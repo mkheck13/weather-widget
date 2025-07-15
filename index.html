@@ -2,52 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stockton Weather Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyberpunk Weather Widget</title>
   <style>
     body {
-      background-color: #0f0f1c;
-      color: #00fff7;
-      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, #0f0f1c, #1c0033);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      color: #00fff7;
     }
 
-    #weather-widget {
+    #weather-container {
       border: 2px solid #00fff7;
       border-radius: 12px;
       padding: 20px;
-      background: linear-gradient(135deg, #1c1c2c, #2c2c4c);
-      box-shadow: 0 0 15px #00fff7;
+      background: linear-gradient(145deg, #1c1c2e, #10001e);
+      box-shadow: 0 0 20px #00fff7;
     }
 
     .weatherwidget-io {
       width: 100%;
       max-width: 400px;
-      display: block;
+      border-radius: 8px;
+      filter: drop-shadow(0 0 10px #00fff7);
       text-align: center;
     }
   </style>
+  <!-- Optional: Synthwave-style font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div id="weather-widget">
+  <div id="weather-container">
     <a class="weatherwidget-io"
-       href="https://forecast7.com/en/37d96n121d29w/stockton/"
-       data-label_1="STOCKTON"
-       data-label_2="WEATHER"
-       data-days="3"
-       data-theme="dark">
-       STOCKTON WEATHER
+      href="https://forecast7.com/en/37d96n121d29/stockton/?unit=us"
+      data-label_1="STOCKTON"
+      data-label_2="WEATHER"
+      data-theme="dark">
+      STOCKTON WEATHER
     </a>
   </div>
 
   <script>
     !function(d,s,id){
-      var js, fjs=d.getElementsByTagName(s)[0];
+      var js,fjs=d.getElementsByTagName(s)[0];
       if(!d.getElementById(id)){
         js=d.createElement(s);
         js.id=id;
@@ -59,4 +61,3 @@
 
 </body>
 </html>
-
